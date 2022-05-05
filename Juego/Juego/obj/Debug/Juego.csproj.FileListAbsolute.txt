@@ -1,0 +1,12 @@
+C:\Users\Administrador\Desktop\Juego\Juego\obj\Debug\Juego.csprojAssemblyReference.cache
+C:\Users\Administrador\Desktop\Juego\Juego\bin\Debug\Juego.exe.config
+C:\Users\Administrador\Desktop\Juego\Juego\bin\Debug\Juego.exe
+C:\Users\Administrador\Desktop\Juego\Juego\bin\Debug\Juego.pdb
+C:\Users\Administrador\Desktop\Juego\Juego\obj\Debug\Juego.exe
+C:\Users\Administrador\Desktop\Juego\Juego\obj\Debug\Juego.pdb
+C:\Users\Administrador\Desktop\c-console-game\Juego\Juego\bin\Debug\Juego.exe.config
+C:\Users\Administrador\Desktop\c-console-game\Juego\Juego\bin\Debug\Juego.exe
+C:\Users\Administrador\Desktop\c-console-game\Juego\Juego\bin\Debug\Juego.pdb
+C:\Users\Administrador\Desktop\c-console-game\Juego\Juego\obj\Debug\Juego.csprojAssemblyReference.cache
+C:\Users\Administrador\Desktop\c-console-game\Juego\Juego\obj\Debug\Juego.exe
+C:\Users\Administrador\Desktop\c-console-game\Juego\Juego\obj\Debug\Juego.pdb

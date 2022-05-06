@@ -25,6 +25,7 @@ namespace Juego
         
         static public ConsoleRectangle frame = new ConsoleRectangle(frameWidth, frameHeight, locationPoint, colors[14]);
         static ConsoleKeyInfo cki = Console.ReadKey();
+        static public Random generadorRandoms = new Random();
 
         static bool winCondition = false;
 
@@ -43,7 +44,13 @@ namespace Juego
                     CheckInput();
                 }
 
-                enemy.GetRandomMove();
+                enemy.MoveEnemyOnePos();
+
+                if (DetectCollisionPlayerAndEnemy())
+                {
+                    player.RandomizePosition();
+                    player.TakeDamage();
+                }
 
 
                 Console.Clear();
@@ -68,7 +75,7 @@ namespace Juego
             Console.SetCursorPosition(enemy.x, enemy.y);
             enemy.Draw('@');
 
-            Console.SetCursorPosition(Console.WindowWidth - 5, 1);
+            Console.SetCursorPosition(Console.WindowWidth - 15, 1);
             points.DrawPoints();
             Console.SetCursorPosition(5, 1);
             player.DrawLives();
@@ -76,7 +83,11 @@ namespace Juego
             Thread.Sleep(200);
         }
 
-
+        static bool DetectCollisionPlayerAndEnemy()
+        {
+            if (player.x == enemy.x && player.y == enemy.y) { return true; }
+            else return false;
+        }
 
         static void Run()
         {

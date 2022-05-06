@@ -11,7 +11,7 @@ namespace Juego
         private int lives = 5;
        
         public void Draw(char letter) { Console.Write(letter); }
-        public void DrawLives() { Console.Write(lives); }
+        public void DrawLives() { Console.Write("Lives: " + lives); }
 
         public int x { get; set; }
         public int y { get; set; }   
@@ -22,10 +22,10 @@ namespace Juego
         public void MoveLeft() { x--; if (x <= Program.frameXBasePos) x = Program.frameXBasePos + 1; }
         public void MoveRight() { x++; if (x >= Program.frameWidth) x = Program.frameWidth; }
 
-        public void GetRandomMove()
+        public void MoveEnemyOnePos()
         {
-            Random generadorRandoms = new Random();
-            int rnd = generadorRandoms.Next(0, 5);
+            
+            int rnd = Program.generadorRandoms.Next(0, 5);
 
             switch (rnd)
             {
@@ -45,5 +45,14 @@ namespace Juego
                     break;
             }
         }
+
+        public void RandomizePosition()
+        {
+            x = Program.generadorRandoms.Next(Program.frameXBasePos, Program.frameWidth);
+            y = Program.generadorRandoms.Next(Program.frameYBasePos, Program.frameHeight);
+        }
+
+        public void TakeDamage() { lives--;}
+
     }
 }

@@ -9,8 +9,8 @@ namespace Juego
     class UI
     {
         public int points { get; set; }
-        public void DrawPoints() { Console.WriteLine(points); }
-        public void DrawFrame() {; }
+        public void DrawPoints() { Console.WriteLine("Points: " + points); }
+        
 
 
     }

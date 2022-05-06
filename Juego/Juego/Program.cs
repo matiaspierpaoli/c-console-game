@@ -10,24 +10,27 @@ namespace Juego
 {
     class Program
     {
-        static Character player = new Character();
-        static Character enemy = new Character();
-        static UI points = new UI();
+        static Object player = new Object();
+        static Object enemy = new Object();
+        static Object powerUp = new Object();
+        static UI ui = new UI();
         
-        static public int frameWidth = Console.WindowWidth - 5;
-        static public int frameHeight = 20;
-        static public int frameXBasePos = 1;
-        static public int frameYBasePos = 5;
+        static public int gameFrameWidth = Console.WindowWidth - 5;
+        static public int gameFrameHeight = 20;
+        static public int gameFrameXBasePos = 1;
+        static public int gameFrameYBasePos = 5;
 
-        static Point locationPoint = new System.Drawing.Point(frameXBasePos, frameYBasePos);
+        static Point mainFrameLocationPoint = new System.Drawing.Point(gameFrameXBasePos, gameFrameYBasePos);
+        static Point attackFrameLocationPoint = new System.Drawing.Point(Console.WindowWidth / 2 - 15, 1);
         static ConsoleColor[] colors = (ConsoleColor[])ConsoleColor.GetValues(typeof(ConsoleColor));
 
-        
-        static public ConsoleRectangle frame = new ConsoleRectangle(frameWidth, frameHeight, locationPoint, colors[14]);
+        static public ConsoleRectangle gameFrame = new ConsoleRectangle(gameFrameWidth, gameFrameHeight, mainFrameLocationPoint, colors[14]);
+        static public ConsoleRectangle attackFrame = new ConsoleRectangle(20, 2, attackFrameLocationPoint, colors[7]);
         static ConsoleKeyInfo cki = Console.ReadKey();
         static public Random generadorRandoms = new Random();
 
         static bool winCondition = false;
+        static bool attackMode = false;
 
         static void Main(string[] args)
         {
@@ -46,15 +49,27 @@ namespace Juego
 
                 enemy.MoveEnemyOnePos();
 
+                if(DetectCollisionPlayerAndPowerUp()) { attackMode = true; }
+
                 if (DetectCollisionPlayerAndEnemy())
                 {
-                    player.RandomizePosition();
-                    player.TakeDamage();
+                    if (attackMode == true)
+                    {
+                        enemy.RandomizePosition();
+                        player.AddPoint();
+                        attackMode = false;
+                        powerUp.RandomizePosition();
+                    }
+                    else
+                    {
+                        player.RandomizePosition();
+                        player.TakeDamage();
+                    }
+                   
                 }
 
 
-                Console.Clear();
-                frame.Draw();
+                
                 DrawScreen();
 
             } while (winCondition == false);
@@ -69,16 +84,31 @@ namespace Juego
         }
 
         static void DrawScreen()
-        {           
+        {
+            Console.Clear();
+            gameFrame.Draw();
+
             Console.SetCursorPosition(player.x, player.y);
             player.Draw('X');
             Console.SetCursorPosition(enemy.x, enemy.y);
-            enemy.Draw('@');
+            enemy.Draw('@');          
 
             Console.SetCursorPosition(Console.WindowWidth - 15, 1);
-            points.DrawPoints();
+            ui.DrawPoints();
             Console.SetCursorPosition(5, 1);
             player.DrawLives();
+
+            if(attackMode == true) 
+            { 
+                attackFrame.Draw();
+                Console.SetCursorPosition(Console.WindowWidth / 2 - 10, 2);
+                ui.DrawAttack();
+            }
+            else
+            {
+                Console.SetCursorPosition(powerUp.x, powerUp.y);
+                enemy.Draw('$');
+            }
 
             Thread.Sleep(200);
         }
@@ -86,6 +116,12 @@ namespace Juego
         static bool DetectCollisionPlayerAndEnemy()
         {
             if (player.x == enemy.x && player.y == enemy.y) { return true; }
+            else return false;
+        }
+
+        static bool DetectCollisionPlayerAndPowerUp()
+        {
+            if (player.x == powerUp.x && player.y == powerUp.y) { return true; }
             else return false;
         }
 
@@ -99,6 +135,7 @@ namespace Juego
             enemy.x = Console.WindowWidth / 2;
             enemy.y = Console.WindowHeight / 2;
 
+            powerUp.RandomizePosition();
 
 
 

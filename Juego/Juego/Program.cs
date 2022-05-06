@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -12,24 +13,24 @@ namespace Juego
         static Character player = new Character();
         static Character enemy = new Character();
         static UI points = new UI();
+        
+        static public int frameWidth = Console.WindowWidth - 5;
+        static public int frameHeight = 20;
+        static public int frameXBasePos = 1;
+        static public int frameYBasePos = 5;
+
+        static Point locationPoint = new System.Drawing.Point(frameXBasePos, frameYBasePos);
+        static ConsoleColor[] colors = (ConsoleColor[])ConsoleColor.GetValues(typeof(ConsoleColor));
+
+        
+        static public ConsoleRectangle frame = new ConsoleRectangle(frameWidth, frameHeight, locationPoint, colors[14]);
         static ConsoleKeyInfo cki = Console.ReadKey();
 
         static bool winCondition = false;
 
         static void Main(string[] args)
         {
-            Console.CursorVisible = false;
-
-            player.SetX(0);
-            player.SetY(0);
-
-            enemy.SetX(Console.WindowWidth / 2);
-            enemy.SetY(Console.WindowHeight / 2);
-
-
-            
-
-            MainLoop();           
+            Run();
         }
 
         static void MainLoop()
@@ -39,25 +40,32 @@ namespace Juego
                 if (Console.KeyAvailable)
                 {
                     cki = Console.ReadKey();
-                    player.CheckInput(cki);
+                    CheckInput();
                 }
 
                 enemy.GetRandomMove();
 
 
-
+                Console.Clear();
+                frame.Draw();
                 DrawScreen();
 
             } while (winCondition == false);
         }
 
-        static void DrawScreen()
+        static void CheckInput()
         {
-            Console.Clear();
+            if (cki.Key == ConsoleKey.UpArrow) { player.MoveUp(); }
+            else if (cki.Key == ConsoleKey.DownArrow) { player.MoveDown(); }
+            else if (cki.Key == ConsoleKey.LeftArrow) { player.MoveLeft(); }
+            else if (cki.Key == ConsoleKey.RightArrow) { player.MoveRight(); }
+        }
 
-            Console.SetCursorPosition(player.GetX(), player.GetY());
+        static void DrawScreen()
+        {           
+            Console.SetCursorPosition(player.x, player.y);
             player.Draw('X');
-            Console.SetCursorPosition(enemy.GetX(), enemy.GetY());
+            Console.SetCursorPosition(enemy.x, enemy.y);
             enemy.Draw('@');
 
             Console.SetCursorPosition(Console.WindowWidth - 5, 1);
@@ -67,5 +75,24 @@ namespace Juego
 
             Thread.Sleep(200);
         }
+
+
+
+        static void Run()
+        {
+            Console.CursorVisible = false;
+
+            player.x = Console.WindowWidth / 2;
+            player.y = Console.WindowHeight / 2 - 2;
+
+            enemy.x = Console.WindowWidth / 2;
+            enemy.y = Console.WindowHeight / 2;
+
+
+
+
+            MainLoop();
+        }
+
     }
 }

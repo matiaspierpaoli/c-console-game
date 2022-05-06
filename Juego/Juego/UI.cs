@@ -8,10 +8,7 @@ namespace Juego
 {
     class UI
     {
-        static int points;
-
-        public void SetPoints(int value){ points = value; }
-        public int GetPoints() { return points; }
+        public int points { get; set; }
         public void DrawPoints() { Console.WriteLine(points); }
         public void DrawFrame() {; }
 

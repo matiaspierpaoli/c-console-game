@@ -8,30 +8,19 @@ namespace Juego
 {
     class Character
     {
-        private int x = 0;
-        private int y = 0;
-
         private int lives = 5;
        
         public void Draw(char letter) { Console.Write(letter); }
         public void DrawLives() { Console.Write(lives); }
-        public void SetX(int value) {x = value; }
-        public void SetY(int value) { y = value; }
-        public int GetX() { return x; }
-        public int GetY() { return y;}
+
+        public int x { get; set; }
+        public int y { get; set; }   
         public int GetLives() { return lives; }
 
-        public void CheckInput(ConsoleKeyInfo cki)
-        {
-            if (cki.Key == ConsoleKey.UpArrow) {MoveUp();}
-            else if(cki.Key == ConsoleKey.DownArrow) { MoveDown(); }
-            else if (cki.Key == ConsoleKey.LeftArrow) { MoveLeft(); }
-            else if (cki.Key == ConsoleKey.RightArrow) { MoveRight(); }
-        }
-        public void MoveUp() {  y--; if (y <= 0) y = 0; }
-        public void MoveDown() { y++; if (y >= Console.WindowHeight) y = 0; }
-        public void MoveLeft() { x--; if (x <= 0) x = 0; }
-        public void MoveRight() { x++; if (x >= Console.WindowWidth) y = 0; }
+        public void MoveUp() {  y--; if (y <= Program.frameYBasePos) y = Program.frameYBasePos + 1; }
+        public void MoveDown() { y++; if (y >= Program.frameHeight + Program.frameYBasePos) y = Program.frameHeight + Program.frameYBasePos; }
+        public void MoveLeft() { x--; if (x <= Program.frameXBasePos) x = Program.frameXBasePos + 1; }
+        public void MoveRight() { x++; if (x >= Program.frameWidth) x = Program.frameWidth; }
 
         public void GetRandomMove()
         {

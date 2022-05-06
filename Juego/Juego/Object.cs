@@ -7,15 +7,21 @@ using System.Threading.Tasks;
 namespace Juego
 {
     class Object
-    {
-        private int lives = 5;
-       
-        public void Draw(char letter) { Console.Write(letter); }
-        public void DrawLives() { Console.Write("Lives: " + lives); }
-
+    {      
         public int x { get; set; }
-        public int y { get; set; }   
-        public int GetLives() { return lives; }
+        public int y { get; set; }
+        public int lives { get; set; }
+        public ConsoleColor color { get; set; }
+        public static int points { get; set; }
+
+        public Object(int X, int Y, int Lives, int Points, ConsoleColor Color)
+        {
+            x = X;
+            y = Y;
+            lives = Lives;
+            points = Points;
+            color = Color;
+        }
 
         public void MoveUp() {  y--; if (y <= UI.gameFrameYBasePos) y = UI.gameFrameYBasePos + 1; }
         public void MoveDown() { y++; if (y >= UI.gameFrameHeight + UI.gameFrameYBasePos) y = UI.gameFrameHeight + UI.gameFrameYBasePos; }
@@ -51,8 +57,11 @@ namespace Juego
             y = Program.generadorRandoms.Next(UI.gameFrameYBasePos + 1, UI.gameFrameHeight - 1);
         }
 
+        public void Draw(char letter) { Console.Write(letter); }
+        public void DrawLives() { Console.Write("Lives: " + lives); }
+
         public void TakeDamage() { lives--;}
-        public void AddPoint() { UI.points++;}
+        public void AddPoint() { points++;}
 
     }
 }

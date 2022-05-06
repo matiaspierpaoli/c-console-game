@@ -10,17 +10,19 @@ namespace Juego
 {
     class Program
     {
-        static Object player = new Object();
-        static Object enemy = new Object();
-        static Object powerUp = new Object();
+        public static ConsoleColor[] colors = (ConsoleColor[])ConsoleColor.GetValues(typeof(ConsoleColor));
+
+        static Object player = new Object(Console.WindowWidth / 2, Console.WindowWidth / 2 - 2, 5, 0, colors[1]);
+        static Object enemy = new Object(Console.WindowWidth / 2, Console.WindowWidth / 2, 0, 0, colors[4]);
+        static Object powerUp = new Object(0,0,0, 0, colors[3]);
         static UI ui = new UI();
         
         
         static ConsoleKeyInfo cki = Console.ReadKey();
-        static public Random generadorRandoms = new Random();
+        public static Random generadorRandoms = new Random();
 
         static bool winCondition = false;
-        static public bool attackMode = false;
+        public static bool attackMode = false;
 
         static void Main(string[] args)
         {
@@ -85,12 +87,6 @@ namespace Juego
         static void Run()
         {
             Console.CursorVisible = false;
-
-            player.x = Console.WindowWidth / 2;
-            player.y = Console.WindowHeight / 2 - 2;
-
-            enemy.x = Console.WindowWidth / 2;
-            enemy.y = Console.WindowHeight / 2;
 
             powerUp.RandomizePosition();
 

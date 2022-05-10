@@ -23,7 +23,7 @@ namespace Pierpaoli_Console_Game
        
         public void DrawAttack() { Console.WriteLine("ATTACK!");}
 
-        public void DrawScreen(List<Object> players, Object enemy, Object powerUp)
+        public void DrawScreen(List<Player> players, Object enemy, Object powerUp)
         {
             Console.Clear();
             gameFrame.Draw();          
@@ -70,7 +70,7 @@ namespace Pierpaoli_Console_Game
             Thread.Sleep(200);
         }
 
-        private bool LookForAtackMode(List<Object> players)
+        private bool LookForAtackMode(List<Player> players)
         {
             bool aux = false;
 

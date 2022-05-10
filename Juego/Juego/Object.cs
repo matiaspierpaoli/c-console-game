@@ -10,21 +10,16 @@ namespace Pierpaoli_Console_Game
     {      
         public int x { get; set; }
         public int y { get; set; }
-        public int lives { get; set; }
         public ConsoleColor color { get; set; }
-        public int points { get; set; }
-        public bool atackMode { get; set; }
-
-        public Object(int X, int Y, int Lives, int Points, ConsoleColor Color)
+       
+        public Object(int x, int y, ConsoleColor color)
         {
-            x = X;
-            y = Y;
-            lives = Lives;
-            points = Points;
-            color = Color;
+            this.x = x;
+            this.y = y;
+            this.color = color;
         }
 
-        public void MoveUp() {  y--; if (y <= UI.gameFrameYBasePos) y = UI.gameFrameYBasePos + 1; }
+        public void MoveUp() { y--; if (y <= UI.gameFrameYBasePos) y = UI.gameFrameYBasePos + 1; }
         public void MoveDown() { y++; if (y >= UI.gameFrameHeight + UI.gameFrameYBasePos) y = UI.gameFrameHeight + UI.gameFrameYBasePos; }
         public void MoveLeft() { x--; if (x <= UI.gameFrameXBasePos) x = UI.gameFrameXBasePos + 1; }
         public void MoveRight() { x++; if (x >= UI.gameFrameWidth) x = UI.gameFrameWidth; }
@@ -59,12 +54,5 @@ namespace Pierpaoli_Console_Game
         }
 
         public void Draw(char letter) { Console.Write(letter); }
-        public void DrawLives() { Console.Write("Lives: " + lives); }
-        public void DrawPoints() { Console.WriteLine("Points: " + points); }
-
-
-        public void TakeDamage() { lives--;}
-        public void AddPoint() { points++;}
-
     }
 }

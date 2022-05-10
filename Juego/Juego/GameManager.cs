@@ -10,14 +10,13 @@ namespace Pierpaoli_Console_Game
     {
         public static ConsoleColor[] colors = (ConsoleColor[])ConsoleColor.GetValues(typeof(ConsoleColor));
 
-        public static List<Object> players = new List<Object>();
+        public static List<Player> players = new List<Player>();
 
-        static Object player1 = new Object(0, 0, 5, 0, colors[1]);
-        static Object player2 = new Object(0, 0, 5, 0, colors[9]);
-        static Object enemy = new Object(0, 0, 0, 0, colors[4]);
-        static Object powerUp = new Object(0, 0, 0, 0, colors[3]);
+        static Object player1 = new Player(0, 0, colors[1]);
+        static Object player2 = new Player(0, 0, colors[9]);
+        static Object enemy = new Object(0, 0, colors[4]);
+        static Object powerUp = new Object(0, 0, colors[3]);
         static UI ui = new UI();
-
 
         static ConsoleKeyInfo cki = Console.ReadKey();
         public static Random generadorRandoms = new Random();
@@ -103,8 +102,8 @@ namespace Pierpaoli_Console_Game
         {
             Console.CursorVisible = false;
 
-            players.Add(player1);
-            players.Add(player2);
+            players.Add(player1 as Player);
+            players.Add(player2 as Player);
 
             for (int i = 0; i < players.Count; i++)
             {

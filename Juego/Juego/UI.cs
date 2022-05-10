@@ -60,7 +60,7 @@ namespace Juego
             else
             {
                 Console.SetCursorPosition(powerUp.x, powerUp.y);
-                enemy.Draw('$');
+                powerUp.Draw('$');
             }
 
             Thread.Sleep(200);

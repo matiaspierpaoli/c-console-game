@@ -18,8 +18,8 @@ namespace Pierpaoli_Console_Game
         static Point mainFrameLocationPoint = new System.Drawing.Point(gameFrameXBasePos, gameFrameYBasePos);
         static Point attackFrameLocationPoint = new System.Drawing.Point(Console.WindowWidth / 2 - 15, 1);
        
-        static public ConsoleRectangle gameFrame = new ConsoleRectangle(gameFrameWidth, gameFrameHeight, mainFrameLocationPoint, Program.colors[14]);
-        static public ConsoleRectangle attackFrame = new ConsoleRectangle(20, 2, attackFrameLocationPoint, Program.colors[9]);
+        static public ConsoleRectangle gameFrame = new ConsoleRectangle(gameFrameWidth, gameFrameHeight, mainFrameLocationPoint, GameManager.colors[14]);
+        static public ConsoleRectangle attackFrame = new ConsoleRectangle(20, 2, attackFrameLocationPoint, GameManager.colors[9]);
        
         public void DrawAttack() { Console.WriteLine("ATTACK!");}
 
@@ -31,7 +31,7 @@ namespace Pierpaoli_Console_Game
             for (int i = 0; i < players.Count; i++)
             {
                 if (players[i].atackMode == true)
-                    Console.ForegroundColor = Program.colors[Program.generadorRandoms.Next(0, 15)];
+                    Console.ForegroundColor = GameManager.colors[GameManager.generadorRandoms.Next(0, 15)];
                 else
                     Console.ForegroundColor = players[i].color;
 

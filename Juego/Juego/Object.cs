@@ -31,7 +31,7 @@ namespace Pierpaoli_Console_Game
 
         public void MoveEnemyOnePos()
         {           
-            int rnd = Program.generadorRandoms.Next(0, 5);
+            int rnd = GameManager.generadorRandoms.Next(0, 5);
 
             switch (rnd)
             {
@@ -54,8 +54,8 @@ namespace Pierpaoli_Console_Game
 
         public void RandomizePosition()
         {
-            x = Program.generadorRandoms.Next(UI.gameFrameXBasePos + 1, UI.gameFrameWidth - 1);
-            y = Program.generadorRandoms.Next(UI.gameFrameYBasePos + 1, UI.gameFrameHeight - 1);
+            x = GameManager.generadorRandoms.Next(UI.gameFrameXBasePos + 1, UI.gameFrameWidth - 1);
+            y = GameManager.generadorRandoms.Next(UI.gameFrameYBasePos + 1, UI.gameFrameHeight - 1);
         }
 
         public void Draw(char letter) { Console.Write(letter); }

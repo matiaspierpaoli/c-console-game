@@ -18,15 +18,12 @@ namespace Pierpaoli_Console_Game
         static Point mainFrameLocationPoint = new System.Drawing.Point(gameFrameXBasePos, gameFrameYBasePos);
         static Point attackFrameLocationPoint = new System.Drawing.Point(Console.WindowWidth / 2 - 15, 1);
        
-
         static public ConsoleRectangle gameFrame = new ConsoleRectangle(gameFrameWidth, gameFrameHeight, mainFrameLocationPoint, Program.colors[14]);
         static public ConsoleRectangle attackFrame = new ConsoleRectangle(20, 2, attackFrameLocationPoint, Program.colors[9]);
-
-        
-        public void DrawPoints() { Console.WriteLine("Points: " + Object.points); }
+       
         public void DrawAttack() { Console.WriteLine("ATTACK!");}
 
-        public void DrawScreen(Object player, Object enemy, Object powerUp)
+        public void DrawScreen(Object player1, Object player2, Object enemy, Object powerUp)
         {
             Console.Clear();
             gameFrame.Draw();
@@ -34,22 +31,38 @@ namespace Pierpaoli_Console_Game
             if(Program.attackMode == true)
                 Console.ForegroundColor = Program.colors[Program.generadorRandoms.Next(0,15)];           
             else           
-                Console.ForegroundColor = player.color;
+                Console.ForegroundColor = player1.color;
                         
-            Console.SetCursorPosition(player.x, player.y);
-            player.Draw('X');
+            Console.SetCursorPosition(player1.x, player1.y);
+            player1.Draw('X');
+
+            if (Program.attackMode == true)
+                Console.ForegroundColor = Program.colors[Program.generadorRandoms.Next(0, 15)];
+            else
+                Console.ForegroundColor = player2.color;
+
+            Console.SetCursorPosition(player2.x, player2.y);
+            player2.Draw('X');
 
             Console.ForegroundColor = enemy.color;
             Console.SetCursorPosition(enemy.x, enemy.y);
             enemy.Draw('@');
 
-            Console.ForegroundColor = Program.colors[10];
+            Console.ForegroundColor = player1.color;
             Console.SetCursorPosition(Console.WindowWidth - 15, 1);
-            DrawPoints();
+            player1.DrawPoints();
 
-            Console.ForegroundColor = Program.colors[10];
+            Console.ForegroundColor = player2.color;
+            Console.SetCursorPosition(Console.WindowWidth - 15, 2);
+            player2.DrawPoints();
+
+            Console.ForegroundColor = player1.color;
             Console.SetCursorPosition(5, 1);
-            player.DrawLives();
+            player1.DrawLives();
+
+            Console.ForegroundColor = player2.color;
+            Console.SetCursorPosition(5, 2);
+            player2.DrawLives();
 
             if (Program.attackMode == true)
             {
@@ -59,6 +72,7 @@ namespace Pierpaoli_Console_Game
             }
             else
             {
+                Console.ForegroundColor = powerUp.color;
                 Console.SetCursorPosition(powerUp.x, powerUp.y);
                 powerUp.Draw('$');
             }

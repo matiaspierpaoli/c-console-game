@@ -59,6 +59,8 @@ namespace Pierpaoli_Console_Game
 
         public void Draw(char letter) { Console.Write(letter); }
         public void DrawLives() { Console.Write("Lives: " + lives); }
+        public void DrawPoints() { Console.WriteLine("Points: " + points); }
+
 
         public void TakeDamage() { lives--;}
         public void AddPoint() { points++;}

@@ -14,8 +14,9 @@ namespace Pierpaoli_Console_Game
     {
         public static ConsoleColor[] colors = (ConsoleColor[])ConsoleColor.GetValues(typeof(ConsoleColor));
 
-        static Object player = new Object(Console.WindowWidth / 2, Console.WindowWidth / 2 - 2, 5, 0, colors[1]);
-        static Object enemy = new Object(Console.WindowWidth / 2, Console.WindowWidth / 2, 0, 0, colors[4]);
+        static Object player1 = new Object(0, 0, 5, 0, colors[1]);
+        static Object player2 = new Object(0, 0, 5, 0, colors[9]);
+        static Object enemy = new Object(0, 0, 0, 0, colors[4]);
         static Object powerUp = new Object(0,0,0, 0, colors[3]);
         static UI ui = new UI();
         
@@ -37,52 +38,90 @@ namespace Pierpaoli_Console_Game
             {
                 if (Console.KeyAvailable)
                 {
-                    cki = Console.ReadKey();
-                    CheckInput();
+                    cki = Console.ReadKey(true);
+                    CheckInputFirstPlayer();                   
+                    CheckInputSecondPlayer();
                 }
 
                 enemy.MoveEnemyOnePos();
 
-                if(DetectCollisionPlayerAndPowerUp()) { attackMode = true; }
+                if(DetectCollisionPlayer1AndPowerUp()) { attackMode = true; }
+                else if (DetectCollisionPlayer2AndPowerUp()) { attackMode = true; }
 
-                if (DetectCollisionPlayerAndEnemy())
+                if (DetectCollisionPlayer1AndEnemy())
                 {
                     if (attackMode == true)
                     {
                         enemy.RandomizePosition();
-                        player.AddPoint();
+                        player1.AddPoint();
                         attackMode = false;
                         powerUp.RandomizePosition();
                     }
                     else
                     {
-                        player.RandomizePosition();
-                        player.TakeDamage();
+                        player1.RandomizePosition();
+                        player1.TakeDamage();
                     }                 
                 }
-                
-                ui.DrawScreen(player, enemy, powerUp);
+
+                if (DetectCollisionPlayer2AndEnemy())
+                {
+                    if (attackMode == true)
+                    {
+                        enemy.RandomizePosition();
+                        player2.AddPoint();
+                        attackMode = false;
+                        powerUp.RandomizePosition();
+                    }
+                    else
+                    {
+                        player2.RandomizePosition();
+                        player2.TakeDamage();
+                    }
+                }
+
+                ui.DrawScreen(player1,player2, enemy, powerUp);
 
             } while (winCondition == false);
         }
 
-        static void CheckInput()
+        static void CheckInputFirstPlayer()
         {
-            if (cki.Key == ConsoleKey.UpArrow) { player.MoveUp(); }
-            else if (cki.Key == ConsoleKey.DownArrow) { player.MoveDown(); }
-            else if (cki.Key == ConsoleKey.LeftArrow) { player.MoveLeft(); }
-            else if (cki.Key == ConsoleKey.RightArrow) { player.MoveRight(); }
+            if (cki.Key == ConsoleKey.UpArrow) { player1.MoveUp(); }
+            else if (cki.Key == ConsoleKey.DownArrow) { player1.MoveDown(); }
+            else if (cki.Key == ConsoleKey.LeftArrow) { player1.MoveLeft(); }
+            else if (cki.Key == ConsoleKey.RightArrow) { player1.MoveRight(); }
         }
 
-        static bool DetectCollisionPlayerAndEnemy()
+        static void CheckInputSecondPlayer()
         {
-            if (player.x == enemy.x && player.y == enemy.y) { return true; }
+            if (cki.Key == ConsoleKey.W) { player2.MoveUp(); }
+            else if (cki.Key == ConsoleKey.S) { player2.MoveDown(); }
+            else if (cki.Key == ConsoleKey.A) { player2.MoveLeft(); }
+            else if (cki.Key == ConsoleKey.D) { player2.MoveRight(); }
+        }
+
+        static bool DetectCollisionPlayer1AndEnemy()
+        {
+            if (player1.x == enemy.x && player1.y == enemy.y) { return true; }
             else return false;
         }
 
-        static bool DetectCollisionPlayerAndPowerUp()
+        static bool DetectCollisionPlayer2AndEnemy()
         {
-            if (player.x == powerUp.x && player.y == powerUp.y) { return true; }
+            if (player2.x == enemy.x && player2.y == enemy.y) { return true; }
+            else return false;
+        }
+
+        static bool DetectCollisionPlayer1AndPowerUp()
+        {
+            if (player1.x == powerUp.x && player1.y == powerUp.y) { return true; }
+            else return false;
+        }
+
+        static bool DetectCollisionPlayer2AndPowerUp()
+        {
+            if (player2.x == powerUp.x && player2.y == powerUp.y) { return true; }
             else return false;
         }
 
@@ -91,6 +130,9 @@ namespace Pierpaoli_Console_Game
             Console.CursorVisible = false;
 
             powerUp.RandomizePosition();
+            player1.RandomizePosition();
+            player2.RandomizePosition();
+            enemy.RandomizePosition();
 
             MainLoop();
         }

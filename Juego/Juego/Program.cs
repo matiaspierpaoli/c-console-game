@@ -14,6 +14,8 @@ namespace Pierpaoli_Console_Game
     {
         public static ConsoleColor[] colors = (ConsoleColor[])ConsoleColor.GetValues(typeof(ConsoleColor));
 
+        public static List<Object> players = new List<Object>();
+
         static Object player1 = new Object(0, 0, 5, 0, colors[1]);
         static Object player2 = new Object(0, 0, 5, 0, colors[9]);
         static Object enemy = new Object(0, 0, 0, 0, colors[4]);
@@ -25,8 +27,7 @@ namespace Pierpaoli_Console_Game
         public static Random generadorRandoms = new Random();
 
         static bool winCondition = false;
-        public static bool attackMode = false;
-
+        
         static void Main(string[] args)
         {
             Run();
@@ -39,99 +40,87 @@ namespace Pierpaoli_Console_Game
                 if (Console.KeyAvailable)
                 {
                     cki = Console.ReadKey(true);
-                    CheckInputFirstPlayer();                   
-                    CheckInputSecondPlayer();
+                    CheckInput();
                 }
 
                 enemy.MoveEnemyOnePos();
 
-                if(DetectCollisionPlayer1AndPowerUp()) { attackMode = true; }
-                else if (DetectCollisionPlayer2AndPowerUp()) { attackMode = true; }
+                DetectCollisionPlayerAndPowerUp();
 
-                if (DetectCollisionPlayer1AndEnemy())
-                {
-                    if (attackMode == true)
-                    {
-                        enemy.RandomizePosition();
-                        player1.AddPoint();
-                        attackMode = false;
-                        powerUp.RandomizePosition();
-                    }
-                    else
-                    {
-                        player1.RandomizePosition();
-                        player1.TakeDamage();
-                    }                 
-                }
+                DetectCollisionPlayerAndEnemy();
 
-                if (DetectCollisionPlayer2AndEnemy())
-                {
-                    if (attackMode == true)
-                    {
-                        enemy.RandomizePosition();
-                        player2.AddPoint();
-                        attackMode = false;
-                        powerUp.RandomizePosition();
-                    }
-                    else
-                    {
-                        player2.RandomizePosition();
-                        player2.TakeDamage();
-                    }
-                }
-
-                ui.DrawScreen(player1,player2, enemy, powerUp);
+                ui.DrawScreen(players, enemy, powerUp);
 
             } while (winCondition == false);
         }
 
-        static void CheckInputFirstPlayer()
+        static void CheckInput()
         {
-            if (cki.Key == ConsoleKey.UpArrow) { player1.MoveUp(); }
-            else if (cki.Key == ConsoleKey.DownArrow) { player1.MoveDown(); }
-            else if (cki.Key == ConsoleKey.LeftArrow) { player1.MoveLeft(); }
-            else if (cki.Key == ConsoleKey.RightArrow) { player1.MoveRight(); }
+            for (int i = 0; i < players.Count; i++)
+            {
+                switch (i)  
+                {
+                    case 0:
+                        if (cki.Key == ConsoleKey.UpArrow) { players[i].MoveUp(); }
+                        else if (cki.Key == ConsoleKey.DownArrow) { players[i].MoveDown(); }
+                        else if (cki.Key == ConsoleKey.LeftArrow) { players[i].MoveLeft(); }
+                        else if (cki.Key == ConsoleKey.RightArrow) { players[i].MoveRight(); }
+                        break;
+                    case 1:
+                        if (cki.Key == ConsoleKey.W) { players[i].MoveUp(); }
+                        else if (cki.Key == ConsoleKey.S) { players[i].MoveDown(); }
+                        else if (cki.Key == ConsoleKey.A) { players[i].MoveLeft(); }
+                        else if (cki.Key == ConsoleKey.D) { players[i].MoveRight(); }
+                        break;
+                    default:
+                        break;
+                }               
+            }           
+        }        
+
+        static void DetectCollisionPlayerAndEnemy()
+        {
+            for (int i = 0; i < players.Count; i++)
+            {
+                if (players[i].x == enemy.x && players[i].y == enemy.y) 
+                {
+                    if (players[i].atackMode == true)
+                    {
+                        enemy.RandomizePosition();
+                        players[i].AddPoint();
+                        players[i].atackMode = false;
+                        powerUp.RandomizePosition();
+                    }
+                    else
+                    {
+                        players[i].RandomizePosition();
+                        players[i].TakeDamage();
+                    }
+                }               
+            }            
         }
 
-        static void CheckInputSecondPlayer()
+        static void DetectCollisionPlayerAndPowerUp()
         {
-            if (cki.Key == ConsoleKey.W) { player2.MoveUp(); }
-            else if (cki.Key == ConsoleKey.S) { player2.MoveDown(); }
-            else if (cki.Key == ConsoleKey.A) { player2.MoveLeft(); }
-            else if (cki.Key == ConsoleKey.D) { player2.MoveRight(); }
-        }
-
-        static bool DetectCollisionPlayer1AndEnemy()
-        {
-            if (player1.x == enemy.x && player1.y == enemy.y) { return true; }
-            else return false;
-        }
-
-        static bool DetectCollisionPlayer2AndEnemy()
-        {
-            if (player2.x == enemy.x && player2.y == enemy.y) { return true; }
-            else return false;
-        }
-
-        static bool DetectCollisionPlayer1AndPowerUp()
-        {
-            if (player1.x == powerUp.x && player1.y == powerUp.y) { return true; }
-            else return false;
-        }
-
-        static bool DetectCollisionPlayer2AndPowerUp()
-        {
-            if (player2.x == powerUp.x && player2.y == powerUp.y) { return true; }
-            else return false;
+            for (int i = 0; i < players.Count; i++)
+            {
+                if (players[i].x == powerUp.x && players[i].y == powerUp.y) { players[i].atackMode = true; }
+            }                
         }
 
         static void Run()
         {
             Console.CursorVisible = false;
 
-            powerUp.RandomizePosition();
-            player1.RandomizePosition();
-            player2.RandomizePosition();
+            players.Add(player1);
+            players.Add(player2);
+
+            for (int i = 0; i< players.Count; i++)
+            {
+                players[i].RandomizePosition();
+            }
+
+            powerUp.RandomizePosition();           
             enemy.RandomizePosition();
 
             MainLoop();

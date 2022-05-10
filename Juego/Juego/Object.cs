@@ -12,7 +12,8 @@ namespace Pierpaoli_Console_Game
         public int y { get; set; }
         public int lives { get; set; }
         public ConsoleColor color { get; set; }
-        public static int points { get; set; }
+        public int points { get; set; }
+        public bool atackMode { get; set; }
 
         public Object(int X, int Y, int Lives, int Points, ConsoleColor Color)
         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Pierpaoli_Console_Game
 {
-    class Player : Object
+    class Player : Entity
     {
         public int lives { get; set; }
         public int points { get; set; }

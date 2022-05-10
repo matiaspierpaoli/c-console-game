@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Pierpaoli_Console_Game
 {
-    class Object
+    class Entity
     {      
         public int x { get; set; }
         public int y { get; set; }
         public ConsoleColor color { get; set; }
        
-        public Object(int x, int y, ConsoleColor color)
+        public Entity(int x, int y, ConsoleColor color)
         {
             this.x = x;
             this.y = y;
@@ -24,28 +24,7 @@ namespace Pierpaoli_Console_Game
         public void MoveLeft() { x--; if (x <= UI.gameFrameXBasePos) x = UI.gameFrameXBasePos + 1; }
         public void MoveRight() { x++; if (x >= UI.gameFrameWidth) x = UI.gameFrameWidth; }
 
-        public void MoveEnemyOnePos()
-        {           
-            int rnd = GameManager.generadorRandoms.Next(0, 5);
-
-            switch (rnd)
-            {
-                case 0:
-                    MoveUp();
-                    break;
-                case 1:
-                    MoveDown();
-                    break;
-                case 2:
-                    MoveLeft();
-                    break;
-                case 3:
-                    MoveRight();
-                    break;
-                default:
-                    break;
-            }
-        }
+       
 
         public void RandomizePosition()
         {

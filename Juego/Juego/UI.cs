@@ -23,7 +23,7 @@ namespace Pierpaoli_Console_Game
        
         public void DrawAttack() { Console.WriteLine("ATTACK!");}
 
-        public void DrawScreen(List<Player> players, Object enemy, Object powerUp)
+        public void DrawScreen(List<Player> players, Entity enemy, Entity powerUp)
         {
             Console.Clear();
             gameFrame.Draw();          

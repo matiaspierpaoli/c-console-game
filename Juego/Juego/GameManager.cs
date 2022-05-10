@@ -11,11 +11,14 @@ namespace Pierpaoli_Console_Game
         public static ConsoleColor[] colors = (ConsoleColor[])ConsoleColor.GetValues(typeof(ConsoleColor));
 
         public static List<Player> players = new List<Player>();
+        public static List<Enemy> enemies = new List<Enemy>();
 
-        static Object player1 = new Player(0, 0, colors[1]);
-        static Object player2 = new Player(0, 0, colors[9]);
-        static Object enemy = new Object(0, 0, colors[4]);
-        static Object powerUp = new Object(0, 0, colors[3]);
+        static Entity player1 = new Player(0, 0, colors[1]);
+        static Entity player2 = new Player(0, 0, colors[9]);
+        static Entity enemy1 = new Enemy(0, 0, colors[4]);
+        static Entity enemy2 = new Enemy(0, 0, colors[4]);
+        static Entity enemy3 = new Enemy(0, 0, colors[4]);
+        static Entity powerUp = new Entity(0, 0, colors[3]);
         static UI ui = new UI();
 
         static ConsoleKeyInfo cki = Console.ReadKey();
@@ -33,13 +36,29 @@ namespace Pierpaoli_Console_Game
                     CheckInput();
                 }
 
-                enemy.MoveEnemyOnePos();
+                for (int i = 0; i < enemies.Count; i++)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            enemies[i].MoveOneNormalPos();
+                            break;
+                        case 1:
+                            enemies[i].MoveOneNormalPos();
+                            break;
+                        case 2:
+                            enemies[i].MoveOneNormalPos();
+                            break;
+                        default:
+                            break;
+                    }
+                }
 
                 DetectCollisionPlayerAndPowerUp();
 
                 DetectCollisionPlayerAndEnemy();
 
-                ui.DrawScreen(players, enemy, powerUp);
+                ui.DrawScreen(players, enemy1, powerUp);
 
             } while (winCondition == false);
         }
@@ -72,21 +91,26 @@ namespace Pierpaoli_Console_Game
         {
             for (int i = 0; i < players.Count; i++)
             {
-                if (players[i].x == enemy.x && players[i].y == enemy.y)
+                for (int j = 0; j < enemies.Count; j++)
                 {
-                    if (players[i].atackMode == true)
+                    if (players[i].x == enemies[j].x && players[i].y == enemies[j].y)
                     {
-                        enemy.RandomizePosition();
-                        players[i].AddPoint();
-                        players[i].atackMode = false;
-                        powerUp.RandomizePosition();
-                    }
-                    else
-                    {
-                        players[i].RandomizePosition();
-                        players[i].TakeDamage();
+                        if (players[i].atackMode == true)
+                        {
+                            enemies[i].RandomizePosition();
+                            players[i].AddPoint();
+                            players[i].atackMode = false;
+                            powerUp.RandomizePosition();
+                        }
+                        else
+                        {
+                            players[i].RandomizePosition();
+                            players[i].TakeDamage();
+                        }
                     }
                 }
+
+                
             }
         }
 
@@ -105,13 +129,21 @@ namespace Pierpaoli_Console_Game
             players.Add(player1 as Player);
             players.Add(player2 as Player);
 
+            enemies.Add(enemy1 as Enemy);
+            enemies.Add(enemy2 as Enemy);
+
             for (int i = 0; i < players.Count; i++)
             {
                 players[i].RandomizePosition();
             }
 
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                enemies[i].RandomizePosition();
+            }
+
             powerUp.RandomizePosition();
-            enemy.RandomizePosition();
+            
 
             MainLoop();
         }

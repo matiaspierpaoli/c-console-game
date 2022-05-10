@@ -23,7 +23,7 @@ namespace Pierpaoli_Console_Game
        
         public void DrawAttack() { Console.WriteLine("ATTACK!");}
 
-        public void DrawScreen(List<Player> players, Entity enemy, Entity powerUp)
+        public void DrawScreen(List<Player> players, List<Enemy> enemies, Entity powerUp)
         {
             Console.Clear();
             gameFrame.Draw();          
@@ -59,13 +59,14 @@ namespace Pierpaoli_Console_Game
                     Console.SetCursorPosition(powerUp.x, powerUp.y);
                     powerUp.Draw('$');
                 }                               
-            }           
+            }
 
-            Console.ForegroundColor = enemy.color;
-            Console.SetCursorPosition(enemy.x, enemy.y);
-            enemy.Draw('@');                      
-
-            
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                Console.ForegroundColor = enemies[i].color;
+                Console.SetCursorPosition(enemies[i].x, enemies[i].y);
+                enemies[i].Draw('@');
+            }
 
             Thread.Sleep(200);
         }

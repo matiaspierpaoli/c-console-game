@@ -15,9 +15,11 @@ namespace Pierpaoli_Console_Game
 
         static Entity player1 = new Player(0, 0, colors[1]);
         static Entity player2 = new Player(0, 0, colors[9]);
+
         static Entity enemy1 = new Enemy(0, 0, colors[4]);
         static Entity enemy2 = new Enemy(0, 0, colors[4]);
         static Entity enemy3 = new Enemy(0, 0, colors[4]);
+
         static Entity powerUp = new Entity(0, 0, colors[3]);
         static UI ui = new UI();
 
@@ -44,10 +46,10 @@ namespace Pierpaoli_Console_Game
                             enemies[i].MoveOneNormalPos();
                             break;
                         case 1:
-                            enemies[i].MoveOneNormalPos();
+                            enemies[i].MoveDiagonaly();
                             break;
                         case 2:
-                            enemies[i].MoveOneNormalPos();
+                            enemies[i].MoveInLineVerticaly();
                             break;
                         default:
                             break;
@@ -58,7 +60,7 @@ namespace Pierpaoli_Console_Game
 
                 DetectCollisionPlayerAndEnemy();
 
-                ui.DrawScreen(players, enemy1, powerUp);
+                ui.DrawScreen(players, enemies, powerUp);
 
             } while (winCondition == false);
         }
@@ -131,6 +133,7 @@ namespace Pierpaoli_Console_Game
 
             enemies.Add(enemy1 as Enemy);
             enemies.Add(enemy2 as Enemy);
+            enemies.Add(enemy3 as Enemy);
 
             for (int i = 0; i < players.Count; i++)
             {

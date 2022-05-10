@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Juego
+namespace Pierpaoli_Console_Game
 {
     class Object
     {      

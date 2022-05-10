@@ -6,7 +6,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Juego
+/*Pierpaoli Matias - C# console game*/
+
+namespace Pierpaoli_Console_Game
 {
     class Program
     {

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Juego
+namespace Pierpaoli_Console_Game
 {
     class UI
     {

@@ -47,16 +47,16 @@ namespace Pierpaoli_Console_Game
 
             switch (rnd)
             {
-                case 1:
+                case 0:
                     moveUpLeft = true;
                     break;
-                case 2:
+                case 1:
                     moveDownRight = true; 
                     break;
-                case 3:
+                case 2:
                     moveUpRight = true;
                     break;
-                case 4:
+                case 3:
                     moveDownLeft = true;
                     break;
                 default:
@@ -87,12 +87,12 @@ namespace Pierpaoli_Console_Game
                 x++;
                 y++;
 
-                if (x <= UI.gameFrameWidth)
+                if (x >= UI.gameFrameWidth)
                 {
                     x -= x;
                 }
                 
-                if (y <= UI.gameFrameHeight)
+                if (y >= UI.gameFrameHeight)
                 {
                     y -= y;
                 }
@@ -104,7 +104,7 @@ namespace Pierpaoli_Console_Game
                 x++;
                 y--;
                 
-                if (x <= UI.gameFrameWidth)
+                if (x >= UI.gameFrameWidth)
                 {
                     x -= x;
                 }
@@ -126,7 +126,7 @@ namespace Pierpaoli_Console_Game
                     x += x;
                 }
                 
-                if (y <= UI.gameFrameHeight)
+                if (y >= UI.gameFrameHeight)
                 {
                     y -= y;
                 }

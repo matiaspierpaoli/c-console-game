@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Pierpaoli_Console_Game
 {
     class Player : Entity
-    {
+    {       
         public int lives { get; set; }
         public int points { get; set; }
         public bool atackMode { get; set; }

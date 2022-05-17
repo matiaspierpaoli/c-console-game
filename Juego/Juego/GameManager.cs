@@ -13,14 +13,16 @@ namespace Pierpaoli_Console_Game
         public static List<Player> players = new List<Player>();
         public static List<Enemy> enemies = new List<Enemy>();
 
-        static Entity player1 = new Player(0, 0, colors[1]);
-        static Entity player2 = new Player(0, 0, colors[9]);
+      
+       
+        static Entity player1;
+        static Entity player2;
 
-        static Entity enemy1 = new Enemy(0, 0, colors[4]);
-        static Entity enemy2 = new Enemy(0, 0, colors[4]);
-        static Entity enemy3 = new Enemy(0, 0, colors[4]);
+        static Entity enemy1;
+        static Entity enemy2;
+        static Entity enemy3;
 
-        static Entity powerUp = new Entity(0, 0, colors[3]);
+        static Entity powerUp;
         static UI ui = new UI();
 
         static ConsoleKeyInfo cki = Console.ReadKey();
@@ -36,24 +38,12 @@ namespace Pierpaoli_Console_Game
                 {
                     cki = Console.ReadKey(true);
                     CheckInput();
+
                 }
 
                 for (int i = 0; i < enemies.Count; i++)
                 {
-                    switch (i)
-                    {
-                        case 0:
-                            enemies[i].MoveOneNormalPos();
-                            break;
-                        case 1:
-                            enemies[i].MoveDiagonaly();
-                            break;
-                        case 2:
-                            enemies[i].MoveInLineVerticaly();
-                            break;
-                        default:
-                            break;
-                    }
+                    enemies[i].Move();
                 }
 
                 DetectCollisionPlayerAndPowerUp();
@@ -72,20 +62,22 @@ namespace Pierpaoli_Console_Game
                 switch (i)
                 {
                     case 0:
-                        if (cki.Key == ConsoleKey.UpArrow) { players[i].MoveUp(); }
-                        else if (cki.Key == ConsoleKey.DownArrow) { players[i].MoveDown(); }
-                        else if (cki.Key == ConsoleKey.LeftArrow) { players[i].MoveLeft(); }
-                        else if (cki.Key == ConsoleKey.RightArrow) { players[i].MoveRight(); }
+                        if (cki.Key == ConsoleKey.UpArrow) { players[i].position.y--; }
+                        else if (cki.Key == ConsoleKey.DownArrow) { players[i].position.y++; }
+                        else if (cki.Key == ConsoleKey.LeftArrow) { players[i].position.x--; }
+                        else if (cki.Key == ConsoleKey.RightArrow) { players[i].position.x++; }
                         break;
                     case 1:
-                        if (cki.Key == ConsoleKey.W) { players[i].MoveUp(); }
-                        else if (cki.Key == ConsoleKey.S) { players[i].MoveDown(); }
-                        else if (cki.Key == ConsoleKey.A) { players[i].MoveLeft(); }
-                        else if (cki.Key == ConsoleKey.D) { players[i].MoveRight(); }
+                        if (cki.Key == ConsoleKey.W) { players[i].position.y--; }
+                        else if (cki.Key == ConsoleKey.S) { players[i].position.y++; }
+                        else if (cki.Key == ConsoleKey.A) { players[i].position.x--; }
+                        else if (cki.Key == ConsoleKey.D) { players[i].position.x++; }
                         break;
                     default:
                         break;
                 }
+
+                players[i].position.SetLimits();
             }
         }
 
@@ -95,24 +87,22 @@ namespace Pierpaoli_Console_Game
             {
                 for (int j = 0; j < enemies.Count; j++)
                 {
-                    if (players[i].x == enemies[j].x && players[i].y == enemies[j].y)
+                    if (players[i].position.x == enemies[j].position.x && players[i].position.y == enemies[j].position.y)
                     {
                         if (players[i].atackMode == true)
                         {
-                            enemies[i].RandomizePosition();
+                            enemies[i].position.RandomizePosition();
                             players[i].AddPoint();
                             players[i].atackMode = false;
-                            powerUp.RandomizePosition();
+                            powerUp.position.RandomizePosition();
                         }
                         else
                         {
-                            players[i].RandomizePosition();
+                            players[i].position.RandomizePosition();
                             players[i].TakeDamage();
                         }
                     }
                 }
-
-                
             }
         }
 
@@ -120,13 +110,23 @@ namespace Pierpaoli_Console_Game
         {
             for (int i = 0; i < players.Count; i++)
             {
-                if (players[i].x == powerUp.x && players[i].y == powerUp.y) { players[i].atackMode = true; }
+                if (players[i].position.x == powerUp.position.x && players[i].position.y == powerUp.position.y) { players[i].atackMode = true; }
             }
         }
 
         public void Run()
         {
             Console.CursorVisible = false;
+
+            player1 = new Player(0, 0, colors[1]);
+            player2 = new Player(0, 0, colors[9]);
+            
+            enemy1 = new Enemy(0, 0, colors[4], new LinearMovement());
+            enemy2 = new Enemy(0, 0, colors[4], new DiagonalMovement());
+            enemy3 = new Enemy(0, 0, colors[4], new RandomMovement());
+            
+            powerUp = new Entity(0, 0, colors[3]);
+            ui = new UI();
 
             players.Add(player1 as Player);
             players.Add(player2 as Player);
@@ -135,18 +135,17 @@ namespace Pierpaoli_Console_Game
             enemies.Add(enemy2 as Enemy);
             enemies.Add(enemy3 as Enemy);
 
-            for (int i = 0; i < players.Count; i++)
+            foreach (var enemy in enemies)
             {
-                players[i].RandomizePosition();
+                enemy.position.RandomizePosition();
             }
 
-            for (int i = 0; i < enemies.Count; i++)
+            foreach (var player in players)
             {
-                enemies[i].RandomizePosition();
+                player.position.RandomizePosition();
             }
 
-            powerUp.RandomizePosition();
-            
+            powerUp.position.RandomizePosition();
 
             MainLoop();
         }

@@ -35,7 +35,7 @@ namespace Pierpaoli_Console_Game
                 else
                     Console.ForegroundColor = players[i].color;
 
-                Console.SetCursorPosition(players[i].x, players[i].y);
+                Console.SetCursorPosition(players[i].position.x, players[i].position.y);
                 players[i].Draw('X');
 
                 Console.ForegroundColor = players[i].color;
@@ -56,15 +56,15 @@ namespace Pierpaoli_Console_Game
                 if (LookForAtackMode(players) == false)
                 {
                     Console.ForegroundColor = powerUp.color;
-                    Console.SetCursorPosition(powerUp.x, powerUp.y);
-                    powerUp.Draw('$');
+                    Console.SetCursorPosition(powerUp.position.x, powerUp.position.y);
+                    powerUp.Draw('0');
                 }                               
             }
 
             for (int i = 0; i < enemies.Count; i++)
             {
                 Console.ForegroundColor = enemies[i].color;
-                Console.SetCursorPosition(enemies[i].x, enemies[i].y);
+                Console.SetCursorPosition(enemies[i].position.x, enemies[i].position.y);
                 enemies[i].Draw('@');
             }
 

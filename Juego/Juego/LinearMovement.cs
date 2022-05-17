@@ -10,7 +10,9 @@ namespace Pierpaoli_Console_Game
     {
         public override void Move(ref Position position)
         {
-            position.y--;            
+            position.y--;
+
+            if (position.y <= UI.gameFrameYBasePos) position.y = UI.gameFrameHeight - 1 + UI.gameFrameHeight;
         }
 
     }
